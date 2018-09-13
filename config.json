@@ -1,1 +1,9 @@
-{}
+{
+  "etymologyHeader": {
+    "type": "header",
+    "examples": [
+      "etymology [laconic](word or phrase)",
+      "look up etymology of [complex](word or phrase)"
+    ]
+  }
+}
