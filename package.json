@@ -12,7 +12,7 @@
   "scripts": {
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib",
-    "test": "./node_modules/.bin/_mocha -r babel-register chai/register-expect",
+    "test": "./node_modules/.bin/_mocha -r babel-register -r chai/register-expect",
     "lint": "./node_modules/.bin/eslint ./",
     "prepublish": "npm run clean && npm run build"
   },
