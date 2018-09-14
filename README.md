@@ -1,4 +1,5 @@
-# lacona-etym
+# lacona-etym [![CircleCI](https://circleci.com/gh/d4hines/lacona-etym.svg?style=svg)](https://circleci.com/gh/d4hines/lacona-etym) [![npm version](https://badge.fury.io/js/lacona-etym.svg)](https://badge.fury.io/js/lacona-etym)
+
 Lacona Addon for searching [EtymOnline](http://etymonline.com)
 
 > *Thus says the LORD:*
