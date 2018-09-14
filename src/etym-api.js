@@ -1,12 +1,13 @@
-var request = require('request-promise-native');
-var cheerio = require('cheerio');
+import { get } from 'request-promise-native';
+import { load } from 'cheerio';
+import * as chaiCheerio from 'chai-cheerio';
 import {
   use,
   expect
 } from 'chai';
 
 // chai cheerio has the same usage as https://www.npmjs.com/package/chai-jquery
-use(require('chai-cheerio'));
+use(chaiCheerio.default);
 
 // Note we use the /word endpoint to bring up an individual word.
 export const ETYM_URL = 'https://www.etymonline.com/word/';
@@ -21,7 +22,7 @@ export const INTERNAL_ERROR = {
 };
 
 export const NOT_FOUND_ERROR = {
-  error: `Word not found on EtymOnline"`,
+  error: 'Word not found on EtymOnline"',
   errorBody: 'Perhaps there\'s a typo, or the word hasn\'t been indexed yet.'
 };
 
@@ -31,7 +32,7 @@ export const FAULTY_EXPECTATION = {
 };
 
 function extract(body) {
-  const $ = cheerio.load(body)
+  const $ = load(body);
   const wordNodes = $(ENTRY_SELECTOR);
 
   // To guard against the real possibility of the API changing from underneath us,
@@ -46,7 +47,7 @@ function extract(body) {
   let results = wordNodes.map((i, el) => {
     const etymNode = $(el).find(ETYMOLOGY_SELECTOR);
     // Remove the <ins> tag that messes up rendering
-    $(etymNode).find('ins').each(function (i, el) {
+    $(etymNode).find('ins').each(function () {
       $(this).remove();
     });
 
@@ -55,7 +56,6 @@ function extract(body) {
       etymology: etymNode.toString(),
     };
   }).toArray();
-  debugger;
   return results;
 }
 
@@ -76,14 +76,14 @@ export function getWord(word) {
     transform2xxOnly: true,
   };
 
-  return request(options).catch(error => {
+  return get(options).catch(error => {
     switch (true) {
-      case error.statusCode === 404:
-        return NOT_FOUND_ERROR;
-      case error.statusCode >= 500:
-        return INTERNAL_ERROR;
-      default:
-        break;
+    case error.statusCode === 404:
+      return NOT_FOUND_ERROR;
+    case error.statusCode >= 500:
+      return INTERNAL_ERROR;
+    default:
+      break;
     }
   });
 }

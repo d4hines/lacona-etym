@@ -6,17 +6,21 @@
   "lacona": {
     "title": "Etymology Dictionary",
     "description": "Find the etymology of an English word in the Online Etymology Dictionary.",
-    "config": "config.json"
+    "config": "config.json",
+    "iconUrl": "https://www.etymonline.com/graphics/header.jpg"
   },
   "scripts": {
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib",
-    "test": "./node_modules/.bin/_mocha",
+    "test": "./node_modules/.bin/_mocha -r babel-register chai/register-expect",
+    "lint": "./node_modules/.bin/eslint ./",
     "prepublish": "npm run clean && npm run build"
   },
   "keywords": [
     "lacona",
-    "lacona-addon"
+    "lacona-addon",
+    "etymology",
+    "etymonline"
   ],
   "license": "MIT",
   "repository": {
@@ -43,6 +47,7 @@
     "babel-core": "^6.26.3",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-es2015": "^6.0.0",
+    "eslint": "^5.5.0",
     "mocha": "^5.2.0",
     "nock": "^9.6.1",
     "rimraf": "^2.0.0"

@@ -23,12 +23,12 @@ describe('Etym API', () => {
   describe('getWord', () => {
     it('should return an array of result words', () => {
       // Mock a request with a cached copy of the results
-      // const exampleResponse = readFileSync('test/book.html').toString();
-      // nock(ETYM_URL + word)
-      //   // I had trouble getting nock to register the requests and respond appropriately.
-      //   // .get('') was a solution, per https://github.com/nock/nock/issues/543#issuecomment-224039762
-      //   .get('')
-      //   .reply(200, exampleResponse);
+      const exampleResponse = readFileSync('test/book.html').toString();
+      nock(ETYM_URL + word)
+        // I had trouble getting nock to register the requests and respond appropriately.
+        // get('') was a solution, per https://github.com/nock/nock/issues/543#issuecomment-224039762
+        .get('')
+        .reply(200, exampleResponse);
 
       return getWord(word).then(result => {
         expect(result.length).to.be.greaterThan(1);
