@@ -15,7 +15,7 @@ Lacona Addon for searching [EtymOnline](http://etymonline.com)
 
 ## Usage
 
-Enable from Lacona preferences. Can be invoked with "etymology [word]" or "look up etymology of [word]".
+Enable from Lacona preferences. Can be invoked with "etymology [word]" or "look up etymology of [word]". Pressing the `enter` key will open EtymOnline with a search for the word in your default browser.
 
 ![lacona-etym usage](https://github.com/d4hines/lacona-etym/raw/master/docs/usage.gif)
 
