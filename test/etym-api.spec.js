@@ -12,6 +12,9 @@ import nock from 'nock';
 import {
   getWord,
   ETYM_URL,
+  NOT_FOUND_ERROR,
+  INTERNAL_ERROR,
+  FAULTY_EXPECTATION,
 } from '../src/etym-api';
 
 describe('Etym API', () => {
@@ -20,12 +23,12 @@ describe('Etym API', () => {
   describe('getWord', () => {
     it('should return an array of result words', () => {
       // Mock a request with a cached copy of the results
-      const exampleResponse = readFileSync('test/book.html').toString();
-      nock(ETYM_URL + word)
-        // I had trouble getting nock to register the requests and respond appropriately.
-        // .get('') was a solution, per https://github.com/nock/nock/issues/543#issuecomment-224039762
-        .get('')
-        .reply(200, exampleResponse);
+      // const exampleResponse = readFileSync('test/book.html').toString();
+      // nock(ETYM_URL + word)
+      //   // I had trouble getting nock to register the requests and respond appropriately.
+      //   // .get('') was a solution, per https://github.com/nock/nock/issues/543#issuecomment-224039762
+      //   .get('')
+      //   .reply(200, exampleResponse);
 
       return getWord(word).then(result => {
         expect(result.length).to.be.greaterThan(1);
@@ -33,17 +36,15 @@ describe('Etym API', () => {
       });
     });
 
-    it('should fail if the word is not found', () => {
-      // EtymOnline uses 404 to mean it can't find the word.
+    it('should return 404 response if the word is not found', () => {
       const nonWord = 'qrasfdtasdasdf';
       nock(ETYM_URL + nonWord)
         .get('')
         .reply(404, 'Not home, go away.');
 
       return getWord(nonWord)
-        .then('Promise was not rejected!')
-        .catch(e => {
-          expect(e.statusCode).to.be.eq(404);
+        .then(e => {
+          expect(e).to.be.eq(NOT_FOUND_ERROR);
         });
     });
 
@@ -58,10 +59,8 @@ describe('Etym API', () => {
         </div>`);
 
       return getWord(word)
-        .then('Promise was not rejected!')
-        .catch(e => {
-          debugger;
-          expect(e.message).to.include('AssertionError')
+        .then(e => {
+          expect(e).to.be.eq(FAULTY_EXPECTATION);
         });
     });
 
@@ -71,9 +70,8 @@ describe('Etym API', () => {
         .reply(503, 'Not home, go away.');
 
       return getWord(word)
-        .then('Promise was not rejected!')
-        .catch(e => {
-          expect(e.statusCode).to.be.eq(503);
+        .then(e => {
+          expect(e).to.be.eq(INTERNAL_ERROR);
         });
     });
   });
